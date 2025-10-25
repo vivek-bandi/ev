@@ -219,29 +219,30 @@ const VehicleManagement = () => {
         title="Add New Vehicle"
         size="xl"
       >
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div>
+        <div className="space-y-6 p-1">
+          {/* Basic Info - Stack vertically on small screens */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="space-y-2">
               <Label htmlFor="name">Vehicle Name *</Label>
               <Input
                 id="name"
                 value={vehicleForm.name}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, name: e.target.value })}
                 placeholder="e.g., EcoRide X1"
-                className="transition-all duration-300 focus:scale-105"
+                className="w-full transition-all duration-300 focus:scale-[1.02]"
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="brand">Brand *</Label>
               <Input
                 id="brand"
                 value={vehicleForm.brand}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, brand: e.target.value })}
                 placeholder="e.g., Tesla"
-                className="transition-all duration-300 focus:scale-105"
+                className="w-full transition-all duration-300 focus:scale-[1.02]"
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="price">Price *</Label>
               <Input
                 id="price"
@@ -249,95 +250,108 @@ const VehicleManagement = () => {
                 value={vehicleForm.price}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, price: e.target.value })}
                 placeholder="e.g., 45000"
-                className="transition-all duration-300 focus:scale-105"
+                className="w-full transition-all duration-300 focus:scale-[1.02]"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="year">Year</Label>
+          {/* Year and Fuel Type */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="year">Year *</Label>
               <Input
                 id="year"
                 type="number"
                 value={vehicleForm.year}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, year: e.target.value })}
                 placeholder="e.g., 2024"
+                className="w-full"
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="fuelType">Fuel Type</Label>
               <Input
                 id="fuelType"
                 value={vehicleForm.fuelType}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, fuelType: e.target.value })}
                 placeholder="Electric"
+                className="w-full"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
+          {/* Technical Specs - Stack in pairs on medium, single on mobile */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div className="space-y-2">
               <Label htmlFor="chargingTime">Charging Time</Label>
               <Input
                 id="chargingTime"
                 value={vehicleForm.chargingTime}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, chargingTime: e.target.value })}
                 placeholder="e.g., 6 hours"
+                className="w-full"
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="range">Range</Label>
               <Input
                 id="range"
                 value={vehicleForm.range}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, range: e.target.value })}
                 placeholder="e.g., 95 km"
+                className="w-full"
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="battery">Battery</Label>
               <Input
                 id="battery"
                 value={vehicleForm.battery}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, battery: e.target.value })}
                 placeholder="e.g., 2.3 kWh"
+                className="w-full"
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="topSpeed">Top Speed</Label>
               <Input
                 id="topSpeed"
                 value={vehicleForm.topSpeed}
                 onChange={(e) => setVehicleForm({ ...vehicleForm, topSpeed: e.target.value })}
                 placeholder="e.g., 65 km/hr"
+                className="w-full"
               />
             </div>
           </div>
 
-          <div>
+          {/* Colors - Full width always */}
+          <div className="space-y-2">
             <Label htmlFor="colors">Color Options (comma-separated)</Label>
             <Input
               id="colors"
               value={vehicleForm.colors}
               onChange={(e) => setVehicleForm({ ...vehicleForm, colors: e.target.value })}
               placeholder="e.g., Red, Blue, White, Black"
+              className="w-full"
             />
           </div>
 
-          {/* Color Images Manager */}
+          {/* Color Images Manager - Full width with padding */}
           {vehicleForm.colors.trim() && (
-            <ColorImageManager
-              colors={vehicleForm.colors.split(',').map(c => c.trim()).filter(c => c)}
-              colorImages={colorImages}
-              onColorImagesChange={setColorImages}
-            />
+            <div className="px-1">
+              <ColorImageManager
+                colors={vehicleForm.colors.split(',').map(c => c.trim()).filter(c => c)}
+                colorImages={colorImages}
+                onColorImagesChange={setColorImages}
+              />
+            </div>
           )}
 
-          <div className="flex gap-4">
+          {/* Action Buttons - Stack on very small screens */}
+          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4 mt-6">
             <Button 
               onClick={handleAddVehicle} 
-              className="flex-1 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="w-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
             >
               <Plus className="mr-2 h-4 w-4" />
               Add Vehicle
@@ -345,7 +359,7 @@ const VehicleManagement = () => {
             <Button 
               onClick={() => setIsAddModalOpen(false)}
               variant="outline"
-              className="flex-1"
+              className="w-full"
             >
               <X className="mr-2 h-4 w-4" />
               Cancel
@@ -361,24 +375,26 @@ const VehicleManagement = () => {
             <CardTitle className="text-primary">Edit Vehicle</CardTitle>
             <CardDescription>Modify vehicle details and specifications</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+          <CardContent className="space-y-4 p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="space-y-2">
                 <Label htmlFor="edit-name">Vehicle Name *</Label>
                 <Input
                   id="edit-name"
                   value={editForm.name}
                   onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                   placeholder="e.g., Tesla Model 3"
+                  className="w-full"
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="edit-brand">Brand *</Label>
                 <Input
                   id="edit-brand"
                   value={editForm.brand}
                   onChange={(e) => setEditForm({ ...editForm, brand: e.target.value })}
                   placeholder="e.g., Tesla"
+                  className="w-full"
                 />
               </div>
             </div>
@@ -489,64 +505,64 @@ const VehicleManagement = () => {
         <CardHeader>
           <CardTitle>Existing Vehicles ({vehicles.length})</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto -mx-4 sm:mx-0">
-            <div className="inline-block min-w-full align-middle">
+        <CardContent className="-mt-3">
+          <div className="w-full overflow-auto border rounded-lg">
+            <div className="min-w-full">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Brand</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Range</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead className="w-[30%]">Name</TableHead>
+                    <TableHead className="w-[20%]">Brand</TableHead>
+                    <TableHead className="w-[20%]">Price</TableHead>
+                    <TableHead className="w-[20%]">Range</TableHead>
+                    <TableHead className="w-[10%] text-right pr-4">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-            <TableBody>
-              {vehicles.map((vehicle) => (
-                <TableRow key={vehicle._id} className="hover:bg-muted/50 transition-colors">
-                  <TableCell className="font-medium">{vehicle.name}</TableCell>
-                  <TableCell>{vehicle.brand}</TableCell>
-                  <TableCell>₹{vehicle.price.toLocaleString()}</TableCell>
-                  <TableCell>{vehicle.range}</TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => handleEditVehicle(vehicle)}
-                        variant="outline"
-                        size="sm"
-                        className="hover:scale-110 transition-transform"
-                        disabled={editingVehicle === vehicle._id}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          try {
-                            await deleteVehicle(vehicle._id);
-                            toast({ title: 'Deleted', description: 'Vehicle removed successfully' });
-                          } catch (error: any) {
-                            toast({ title: 'Error', description: error.message || 'Failed to delete vehicle', variant: 'destructive' });
-                          }
-                        }}
-                        variant="destructive"
-                        size="sm"
-                        className="hover:scale-110 transition-transform"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-              {vehicles.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No vehicles added yet
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+                <TableBody>
+                  {vehicles.map((vehicle) => (
+                    <TableRow key={vehicle._id} className="hover:bg-muted/50 transition-colors">
+                      <TableCell className="font-medium">{vehicle.name}</TableCell>
+                      <TableCell>{vehicle.brand}</TableCell>
+                      <TableCell>₹{vehicle.price.toLocaleString()}</TableCell>
+                      <TableCell>{vehicle.range}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            onClick={() => handleEditVehicle(vehicle)}
+                            variant="outline"
+                            size="sm"
+                            className="hover:scale-105 transition-transform"
+                            disabled={editingVehicle === vehicle._id}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            onClick={async () => {
+                              try {
+                                await deleteVehicle(vehicle._id);
+                                toast({ title: 'Deleted', description: 'Vehicle removed successfully' });
+                              } catch (error: any) {
+                                toast({ title: 'Error', description: error.message || 'Failed to delete vehicle', variant: 'destructive' });
+                              }
+                            }}
+                            variant="destructive"
+                            size="sm"
+                            className="hover:scale-105 transition-transform"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {vehicles.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
+                        No vehicles added yet
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
               </Table>
             </div>
           </div>

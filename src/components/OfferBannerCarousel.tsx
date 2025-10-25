@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Clock, Star, Zap, ShoppingCart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Star, Zap, ShoppingCart, Car } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Offer } from '@/contexts/VehicleContext';
 
@@ -79,13 +79,19 @@ const OfferBannerCarousel: React.FC<OfferBannerCarouselProps> = ({ offers, inter
     currentOffer.vehicle.price - finalPrice : 0;
 
   // Get vehicle image
+  // Prefer the main `vehicle.images[0]` (most common), then fall back to colorImages primaryImage or first color image.
+  // This increases the chance of showing an image on mobile where colorImages structure may differ.
   const getVehicleImage = () => {
     if (!currentOffer.vehicle) return null;
-    
+
+    // 1) Prefer top-level images array
+    if (currentOffer.vehicle.images && currentOffer.vehicle.images.length > 0) {
+      return currentOffer.vehicle.images[0];
+    }
+
+    // 2) Fall back to colorImages structure
     const firstColorImages = currentOffer.vehicle.colorImages?.[0];
-    return firstColorImages?.primaryImage || 
-           firstColorImages?.images?.[0] || 
-           currentOffer.vehicle.images?.[0];
+    return firstColorImages?.primaryImage || firstColorImages?.images?.[0] || null;
   };
 
   const vehicleImage = getVehicleImage();
@@ -123,17 +129,26 @@ const OfferBannerCarousel: React.FC<OfferBannerCarouselProps> = ({ offers, inter
               </div>
 
               {/* Vehicle Image */}
-              {vehicleImage && (
+              {vehicleImage ? (
                 <div className="absolute inset-0 flex items-center justify-center p-4">
                   <img
                     src={vehicleImage}
                     alt={currentOffer.vehicle?.name}
+                    loading="lazy"
                     className="max-w-full max-h-full object-contain opacity-90"
                     onError={(e) => {
+                      // If image fails to load (CORS or broken URL), hide it gracefully so the UI remains usable.
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
                     }}
                   />
+                </div>
+              ) : (
+                // Small fallback placeholder to avoid layout collapse on small screens
+                <div className="absolute inset-0 flex items-center justify-center p-4">
+                  <div className="w-20 h-20 bg-white/10 rounded-md flex items-center justify-center">
+                    <Car className="h-8 w-8 text-white/60" />
+                  </div>
                 </div>
               )}
 

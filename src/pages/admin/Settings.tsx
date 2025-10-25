@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Settings, Save, RefreshCw, Globe, Database, Shield, Bell } from 'lucide-react';
+import { Settings as SettingsIcon, Save, RefreshCw, Globe, Database, Shield, Bell } from 'lucide-react';
 
-const Setin = () => {
+const Settings = () => {
   const [loading, setLoading] = useState(false);
   const [settings, setSettings] = useState({
     siteDescription: 'Premium Electric Vehicles for a Sustainable Future',
@@ -56,8 +56,8 @@ const Setin = () => {
     <div className="space-y-4 md:space-y-6 animate-fade-in p-4 md:p-6">
       <div>
         <h2 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
-          <Settings className="h-6 w-6 md:h-8 md:w-8 text-primary" />
-          Setin - System Configuration
+          <SettingsIcon className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+          System Settings
         </h2>
         <p className="text-muted-foreground mt-1 text-sm md:text-base">Configure your EV website settings and preferences</p>
       </div>
@@ -415,4 +415,4 @@ const Setin = () => {
   );
 };
 
-export default Setin;
+export default Settings;

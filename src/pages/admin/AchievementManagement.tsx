@@ -175,15 +175,15 @@ const AchievementManagement = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in">
+      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-3xl font-bold">Achievement Management</h2>
-          <p className="text-muted-foreground mt-1">Manage company achievements and recognitions</p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Achievement Management</h2>
+          <p className="text-sm text-muted-foreground mt-1">Manage company achievements and recognitions</p>
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm}>
+            <Button onClick={resetForm} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Add Achievement
             </Button>
@@ -196,35 +196,43 @@ const AchievementManagement = () => {
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    placeholder="e.g., Best EV Manufacturer 2024"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
-                  <Select value={formData.category} onValueChange={(value: Achievement['category']) => setFormData(prev => ({ ...prev, category: value }))}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map(category => (
-                        <SelectItem key={category.value} value={category.value}>
-                          {category.icon} {category.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
+                <Label htmlFor="title" className="font-medium">
+                  Title *
+                </Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="e.g., Best EV Manufacturer 2024"
+                  required
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="category" className="font-medium">
+                  Category *
+                </Label>
+                <Select 
+                  value={formData.category} 
+                  onValueChange={(value: Achievement['category']) => 
+                    setFormData(prev => ({ ...prev, category: value }))
+                  }
+                >
+                  <SelectTrigger id="category" className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map(category => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.icon} {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>              <div className="space-y-2">
                 <Label htmlFor="shortDescription">Short Description *</Label>
                 <Textarea
                   id="shortDescription"
@@ -358,28 +366,34 @@ const AchievementManagement = () => {
       </div>
 
       {/* Achievements Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {achievements.map((achievement) => (
-          <Card key={achievement._id} className="hover:shadow-lg transition-all duration-300">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div className="space-y-1">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <span className="text-2xl">{getCategoryIcon(achievement.category)}</span>
-                    {achievement.title}
+          <Card 
+            key={achievement._id} 
+            className="hover:shadow-lg transition-all duration-300 overflow-hidden group"
+          >
+            <CardHeader className="space-y-2">
+              <div className="flex justify-between items-start gap-4">
+                <div className="min-w-0 flex-1 space-y-1">
+                  <CardTitle className="flex items-center gap-2 text-base sm:text-lg leading-none">
+                    <span className="text-xl sm:text-2xl flex-shrink-0">{getCategoryIcon(achievement.category)}</span>
+                    <span className="truncate">{achievement.title}</span>
                   </CardTitle>
-                  <CardDescription className="text-sm">
+                  <CardDescription className="text-xs sm:text-sm">
                     {getCategoryLabel(achievement.category)} • {new Date(achievement.date).toLocaleDateString()}
                   </CardDescription>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex flex-col gap-1.5">
                   {achievement.featured && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge variant="secondary" className="text-xs whitespace-nowrap">
                       <Star className="h-3 w-3 mr-1" />
                       Featured
                     </Badge>
                   )}
-                  <Badge variant={achievement.isActive ? "default" : "secondary"} className="text-xs">
+                  <Badge 
+                    variant={achievement.isActive ? "default" : "secondary"} 
+                    className="text-xs whitespace-nowrap"
+                  >
                     {achievement.isActive ? (
                       <>
                         <Eye className="h-3 w-3 mr-1" />
@@ -402,22 +416,26 @@ const AchievementManagement = () => {
               
               {achievement.issuer && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Building className="h-4 w-4 text-muted-foreground" />
-                  <span>{achievement.issuer}</span>
+                  <Building className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <span className="truncate">{achievement.issuer}</span>
                 </div>
               )}
               
               {achievement.location && (
                 <div className="flex items-center gap-2 text-sm">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <span>{achievement.location}</span>
+                  <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <span className="truncate">{achievement.location}</span>
                 </div>
               )}
 
               {achievement.tags && achievement.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {achievement.tags.slice(0, 3).map((tag, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
+                    <Badge 
+                      key={index} 
+                      variant="outline" 
+                      className="text-xs whitespace-nowrap"
+                    >
                       {tag}
                     </Badge>
                   ))}
@@ -429,9 +447,9 @@ const AchievementManagement = () => {
                 </div>
               )}
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex items-center gap-2 pt-3 opacity-80 group-hover:opacity-100 transition-opacity">
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   onClick={() => handleEdit(achievement)}
                   className="flex-1"
@@ -440,12 +458,13 @@ const AchievementManagement = () => {
                   Edit
                 </Button>
                 <Button
-                  variant="outline"
-                  size="sm"
+                  variant="ghost"
+                  size="icon"
                   onClick={() => handleDelete(achievement._id)}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  className="h-8 w-8 text-destructive hover:bg-destructive/10"
                 >
                   <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">Delete achievement</span>
                 </Button>
               </div>
             </CardContent>
@@ -454,15 +473,18 @@ const AchievementManagement = () => {
       </div>
 
       {achievements.length === 0 && (
-        <Card className="text-center py-12">
-          <CardContent>
-            <Award className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No Achievements Yet</h3>
-            <p className="text-muted-foreground mb-4">
+        <Card className="col-span-full bg-muted/10 border-dashed">
+          <CardContent className="flex flex-col items-center justify-center py-10 sm:py-16">
+            <Award className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+            <h3 className="text-lg font-semibold tracking-tight mb-1">No Achievements Yet</h3>
+            <p className="text-sm text-muted-foreground text-center max-w-sm mb-4">
               Start building your company's success story by adding achievements and recognitions.
             </p>
-            <Button onClick={() => setIsAddModalOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
+            <Button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="gap-2"
+            >
+              <Plus className="h-4 w-4" />
               Add First Achievement
             </Button>
           </CardContent>
@@ -471,29 +493,39 @@ const AchievementManagement = () => {
 
       {/* Edit Modal */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-3xl max-h-[95vh] p-0">
+          <DialogHeader className="p-6 pb-2">
             <DialogTitle>Edit Achievement</DialogTitle>
             <DialogDescription>
               Update the achievement details and settings.
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-4 px-6 pb-6 overflow-y-auto max-h-[calc(95vh-8rem)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
-                <Label htmlFor="edit-title">Title *</Label>
+                <Label htmlFor="edit-title" className="font-medium">
+                  Title *
+                </Label>
                 <Input
                   id="edit-title"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                   placeholder="e.g., Best EV Manufacturer 2024"
                   required
+                  className="w-full"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-category">Category *</Label>
-                <Select value={formData.category} onValueChange={(value: Achievement['category']) => setFormData(prev => ({ ...prev, category: value }))}>
-                  <SelectTrigger>
+                <Label htmlFor="edit-category" className="font-medium">
+                  Category *
+                </Label>
+                <Select 
+                  value={formData.category} 
+                  onValueChange={(value: Achievement['category']) => 
+                    setFormData(prev => ({ ...prev, category: value }))
+                  }
+                >
+                  <SelectTrigger id="edit-category" className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -507,8 +539,10 @@ const AchievementManagement = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="edit-shortDescription">Short Description *</Label>
+            <div className="space-y-2 mt-6">
+              <Label htmlFor="edit-shortDescription" className="font-medium">
+                Short Description *
+              </Label>
               <Textarea
                 id="edit-shortDescription"
                 value={formData.shortDescription}
@@ -516,11 +550,14 @@ const AchievementManagement = () => {
                 placeholder="Brief description for cards..."
                 rows={2}
                 required
+                className="w-full min-h-[80px] resize-y"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="edit-detailedDescription">Detailed Description *</Label>
+            <div className="space-y-2 mt-6">
+              <Label htmlFor="edit-detailedDescription" className="font-medium">
+                Detailed Description *
+              </Label>
               <Textarea
                 id="edit-detailedDescription"
                 value={formData.detailedDescription}
@@ -528,109 +565,150 @@ const AchievementManagement = () => {
                 placeholder="Detailed description for popup..."
                 rows={4}
                 required
+                className="w-full min-h-[120px] resize-y"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6">
               <div className="space-y-2">
-                <Label htmlFor="edit-date">Date *</Label>
+                <Label htmlFor="edit-date" className="font-medium">
+                  Date *
+                </Label>
                 <Input
                   id="edit-date"
                   type="date"
                   value={formData.date}
                   onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
                   required
+                  className="w-full"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-issuer">Issuer</Label>
+                <Label htmlFor="edit-issuer" className="font-medium">
+                  Issuer
+                </Label>
                 <Input
                   id="edit-issuer"
                   value={formData.issuer}
                   onChange={(e) => setFormData(prev => ({ ...prev, issuer: e.target.value }))}
                   placeholder="e.g., EV Industry Association"
+                  className="w-full"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="edit-location">Location</Label>
+            <div className="space-y-2 mt-6">
+              <Label htmlFor="edit-location" className="font-medium">
+                Location
+              </Label>
               <Input
                 id="edit-location"
                 value={formData.location}
                 onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                 placeholder="e.g., Mumbai, India"
+                className="w-full"
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-4">
-              <ImageUpload
-                label="Icon"
-                value={formData.icon}
-                onChange={(value) => setFormData(prev => ({ ...prev, icon: value }))}
-                placeholder="Enter icon URL or upload from device"
-              />
-              <ImageUpload
-                label="Achievement Image"
-                value={formData.image}
-                onChange={(value) => setFormData(prev => ({ ...prev, image: value }))}
-                placeholder="Enter image URL or upload from device"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Tags</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  placeholder="Add a tag..."
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+            <div className="grid grid-cols-1 gap-6 mt-8">
+              <div className="space-y-4">
+                <ImageUpload
+                  label="Icon"
+                  value={formData.icon}
+                  onChange={(value) => setFormData(prev => ({ ...prev, icon: value }))}
+                  placeholder="Enter icon URL or upload from device"
                 />
-                <Button type="button" onClick={handleAddTag} variant="outline">
+              </div>
+              <div className="space-y-4">
+                <ImageUpload
+                  label="Achievement Image"
+                  value={formData.image}
+                  onChange={(value) => setFormData(prev => ({ ...prev, image: value }))}
+                  placeholder="Enter image URL or upload from device"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4 mt-8">
+              <Label className="font-medium">Tags</Label>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1">
+                  <Input
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    placeholder="Add a tag..."
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                    className="w-full"
+                  />
+                </div>
+                <Button 
+                  type="button" 
+                  onClick={handleAddTag} 
+                  variant="outline"
+                  className="w-full sm:w-24"
+                >
                   Add
                 </Button>
               </div>
               {formData.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="flex flex-wrap gap-2 mt-3">
                   {formData.tags.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                    <Badge 
+                      key={index} 
+                      variant="secondary" 
+                      className="flex items-center gap-1.5 px-2 py-1"
+                    >
                       {tag}
-                      <X className="h-3 w-3 cursor-pointer" onClick={() => handleRemoveTag(tag)} />
+                      <X 
+                        className="h-3 w-3 cursor-pointer hover:text-destructive transition-colors" 
+                        onClick={() => handleRemoveTag(tag)}
+                      />
                     </Badge>
                   ))}
                 </div>
               )}
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="edit-isActive"
                   checked={formData.isActive}
                   onChange={(e) => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
-                  className="rounded"
+                  className="h-4 w-4 rounded border-gray-300"
                 />
-                <Label htmlFor="edit-isActive">Active</Label>
+                <Label htmlFor="edit-isActive" className="font-medium cursor-pointer">
+                  Active
+                </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="edit-featured"
                   checked={formData.featured}
                   onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
-                  className="rounded"
+                  className="h-4 w-4 rounded border-gray-300"
                 />
-                <Label htmlFor="edit-featured">Featured</Label>
+                <Label htmlFor="edit-featured" className="font-medium cursor-pointer">
+                  Featured
+                </Label>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 mt-8">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsEditModalOpen(false)}
+                className="w-full sm:w-auto"
+              >
                 Cancel
               </Button>
-              <Button type="submit">
+              <Button 
+                type="submit"
+                className="w-full sm:w-auto"
+              >
                 <Save className="h-4 w-4 mr-2" />
                 Update Achievement
               </Button>

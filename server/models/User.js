@@ -91,9 +91,7 @@ userSchema.virtual('isLocked').get(function() {
   return !!(this.lockUntil && this.lockUntil > Date.now());
 });
 
-// Indexes
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
+// Indexes - only add indexes that aren't already created by unique: true
 userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 

@@ -19,7 +19,7 @@ import InventoryManagement from "./pages/admin/InventoryManagement";
 import CustomerManagement from "./pages/admin/CustomerManagement";
 import InquiryManagement from "./pages/admin/InquiryManagement";
 import Notifications from "./pages/admin/Notifications";
-import Setin from "./pages/admin/Setin";
+import Settings from "./pages/admin/Settings";
 import AchievementManagement from "./pages/admin/AchievementManagement";
 import UserLayout from "./pages/user/UserLayout";
 import UserDashboard from "./pages/user/UserDashboard";
@@ -78,7 +78,7 @@ const App = () => (
                 <Route path="inquiries" element={<InquiryManagement />} />
                 <Route path="achievements" element={<AchievementManagement />} />
                 <Route path="notifications" element={<Notifications />} />
-                <Route path="setin" element={<Setin />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
               
               {/* Legacy route for backward compatibility */}

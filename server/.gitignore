@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for uploaded files
+uploads/
+tmp/
+temp/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug & Profiling
+.node-debug/
+*.heapsnapshot
+*.cpuprofile
+
+# Backend specific
+dist/
+build/
+*.pem
+*.cert
+*.key
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+mongodump/
+mongodb-backup/
+
+# PM2
+.pm2/
+ecosystem.config.js

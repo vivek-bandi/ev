@@ -127,6 +127,9 @@ export const VehicleProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const achievementsData = achievementsResponse.data;
       
       // Enhance offers with vehicle data
+      // Attach the matching vehicle object to each offer so UI components (banners, cards)
+      // can easily display vehicle details/images without additional lookups.
+      // Note: vehiclesData may come as an array when the backend returns { vehicles: [...] }
       const enhancedOffers = offersData.map((offer: Offer) => {
         const vehicle = vehiclesData.find((v: Vehicle) => v._id === offer.vehicleId);
         return {

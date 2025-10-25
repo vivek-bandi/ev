@@ -1,5 +1,29 @@
-# Logs
-logs
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+.yarn/
+.npm/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+.env.local
+.env.*.local
+
+# Build Output
+dist/
+dist-ssr/
+build/
+out/
+.next/
+.nuxt/
+.output/
+
+# Cache & Logs
+.cache/
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +31,49 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Testing
+coverage/
+.nyc_output/
+junit.xml
 
-# Editor directories and files
+# Editor & IDE
 .vscode/*
 !.vscode/extensions.json
-.idea
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*.orig
+
+# OS Generated
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.eslintcache
+.stylelintcache
+tsconfig.tsbuildinfo
+
+# Deployment
+.vercel
+.netlify/
+.firebase/
+.render/
+*.tgz
+
+# Optional
+*.local
+.env.development.local
+.env.test.local
+.env.production.local
