@@ -61,8 +61,8 @@ const OffersPage = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-green-500">
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4">
+        <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-green-500">
           <CardContent className="p-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-green-100 rounded-full">
@@ -76,7 +76,7 @@ const OffersPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-orange-500">
+  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-orange-500">
           <CardContent className="p-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-orange-100 rounded-full">
@@ -90,7 +90,7 @@ const OffersPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-blue-500">
+  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-blue-500">
           <CardContent className="p-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-blue-100 rounded-full">
@@ -108,7 +108,7 @@ const OffersPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-purple-500">
+  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-purple-500">
           <CardContent className="p-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-purple-100 rounded-full">
@@ -129,16 +129,18 @@ const OffersPage = () => {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 justify-center">
+      <div className="flex flex-wrap gap-2 justify-center px-4">
         <Button
           variant={filterType === 'all' ? 'default' : 'outline'}
           onClick={() => setFilterType('all')}
+          className="w-full sm:w-auto whitespace-nowrap"
         >
           All Offers
         </Button>
         <Button
           variant={filterType === 'expiring' ? 'default' : 'outline'}
           onClick={() => setFilterType('expiring')}
+          className="w-full sm:w-auto whitespace-nowrap"
         >
           <Clock className="h-4 w-4 mr-2" />
           Expiring Soon
@@ -146,6 +148,7 @@ const OffersPage = () => {
         <Button
           variant={filterType === 'high-discount' ? 'default' : 'outline'}
           onClick={() => setFilterType('high-discount')}
+          className="w-full sm:w-auto whitespace-nowrap"
         >
           <Zap className="h-4 w-4 mr-2" />
           High Discount
@@ -166,7 +169,7 @@ const OffersPage = () => {
             </Badge>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
             {filteredOffers.map((offer) => {
               const vehicle = vehicles.find(v => v._id === offer.vehicleId);
               if (!vehicle) return null;
@@ -178,10 +181,10 @@ const OffersPage = () => {
               return (
                 <Card 
                   key={offer._id} 
-                  className={`group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 hover:border-primary/50 cursor-pointer ${
+                  className={`relative group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 hover:border-primary/50 cursor-pointer ${
                     isExpiring ? 'border-orange-200 bg-orange-50' : 'border-green-200 bg-green-50'
                   }`}
-                   onClick={() => navigate(`/user/vehicle/${vehicle._id}`)}
+                  onClick={() => navigate(`/user/vehicle/${vehicle._id}`)}
                 >
                   <div className={`absolute top-0 left-0 w-full h-1 ${
                     isExpiring 
@@ -203,9 +206,7 @@ const OffersPage = () => {
                       <div className="text-right">
                         <Badge 
                           variant="destructive" 
-                          className={`text-lg px-3 py-1 ₹{
-                            isExpiring ? 'bg-orange-500' : ''
-                          }`}
+                          className={`text-lg px-3 py-1 ${isExpiring ? 'bg-orange-500' : ''}`}
                         >
                           -{offer.discount}%
                         </Badge>
@@ -251,7 +252,7 @@ const OffersPage = () => {
                           <Calendar className="h-4 w-4" />
                           <span>
                             {offer.validUntil 
-                              ? `Valid until ₹{new Date(offer.validUntil).toLocaleDateString()}`
+                              ? `Valid until ${new Date(offer.validUntil).toLocaleDateString()}`
                               : 'No expiry date'
                             }
                           </span>
@@ -279,7 +280,7 @@ const OffersPage = () => {
             <p className="text-muted-foreground mb-6">
               {filterType === 'all' 
                 ? 'There are currently no active offers available.'
-                : `No offers match the "₹{filterType}" filter.`
+                : `No offers match the "${filterType}" filter.`
               }
             </p>
             <Button onClick={() => setFilterType('all')}>
@@ -296,12 +297,12 @@ const OffersPage = () => {
           <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
             These offers are limited time only. Book a test drive today to secure your discount.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Button size="lg">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
+            <Button size="lg" className="w-full sm:w-auto">
               <Calendar className="h-5 w-5 mr-2" />
               Book Test Drive
             </Button>
-            <Button size="lg" variant="outline" onClick={() => navigate('/user/vehicles')}>
+            <Button size="lg" variant="outline" className="w-full sm:w-auto" onClick={() => navigate('/user/vehicles')}>
               <Car className="h-5 w-5 mr-2" />
               Browse All Vehicles
             </Button>

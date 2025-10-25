@@ -1,6 +1,26 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const DEFAULT_API_PORT = 5000;
+
+// Determine API base URL:
+// 1. If VITE_API_URL is set, use it.
+// 2. During development, if not set, construct a URL using the current page hostname
+//    so mobile devices hitting the dev server will call the machine IP (e.g. http://192.168.x.x:5000/api).
+// 3. Fallback to localhost for other environments.
+const getDefaultApiBase = () => {
+  try {
+    if (import.meta.env.MODE === 'development' && typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      // If the frontend is being served from a network IP (e.g. 192.168.x.x), use that host with the backend port.
+      return `${window.location.protocol}//${hostname}:${DEFAULT_API_PORT}/api`;
+    }
+  } catch (e) {
+    // ignore
+  }
+  return 'http://localhost:5000/api';
+};
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || getDefaultApiBase();
 
 // Create axios instance
 const api = axios.create({

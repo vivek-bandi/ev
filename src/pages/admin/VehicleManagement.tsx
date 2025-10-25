@@ -220,7 +220,7 @@ const VehicleManagement = () => {
         size="xl"
       >
         <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="name">Vehicle Name *</Label>
               <Input
@@ -276,7 +276,7 @@ const VehicleManagement = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <Label htmlFor="chargingTime">Charging Time</Label>
               <Input
@@ -490,17 +490,18 @@ const VehicleManagement = () => {
           <CardTitle>Existing Vehicles ({vehicles.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Brand</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Range</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="inline-block min-w-full align-middle">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Brand</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Range</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
             <TableBody>
               {vehicles.map((vehicle) => (
                 <TableRow key={vehicle._id} className="hover:bg-muted/50 transition-colors">
@@ -546,7 +547,8 @@ const VehicleManagement = () => {
                 </TableRow>
               )}
             </TableBody>
-            </Table>
+              </Table>
+            </div>
           </div>
         </CardContent>
       </Card>

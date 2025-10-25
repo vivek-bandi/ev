@@ -14,11 +14,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      // After login, if admin go to admin, else user dashboard
-      const token = localStorage.getItem('token');
-      // get profile from api is already set in context; redirect based on stored user
-      navigate('/user');
+      const data = await login(email, password);
+
+      // login returns { token, user }
+      const role = data?.user?.role || 'sales';
+      if (role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/user/home');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }

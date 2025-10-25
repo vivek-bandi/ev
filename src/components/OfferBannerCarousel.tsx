@@ -8,11 +8,13 @@ import { Offer } from '@/contexts/VehicleContext';
 
 interface OfferBannerCarouselProps {
   offers: Offer[];
+  interval?: number; // milliseconds between slides
 }
 
-const OfferBannerCarousel: React.FC<OfferBannerCarouselProps> = ({ offers }) => {
+const OfferBannerCarousel: React.FC<OfferBannerCarouselProps> = ({ offers, interval = 5000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const timerRef = React.useRef<number | null>(null);
   const navigate = useNavigate();
 
   // Filter active offers
@@ -22,22 +24,37 @@ const OfferBannerCarousel: React.FC<OfferBannerCarouselProps> = ({ offers }) => 
     return new Date(offer.validUntil) > new Date();
   });
 
-  // Auto-scroll every 5 seconds
+  // Auto-scroll using a ref so we can reliably start/stop the timer
   useEffect(() => {
+    // clear any existing timer
+    if (timerRef.current) {
+      window.clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
     if (!isAutoPlaying || activeOffers.length <= 1) return;
 
-    const interval = setInterval(() => {
+    timerRef.current = window.setInterval(() => {
       setCurrentIndex((prevIndex) => 
         prevIndex === activeOffers.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000);
+    }, interval);
 
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, activeOffers.length]);
+    return () => {
+      if (timerRef.current) {
+        window.clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isAutoPlaying, activeOffers.length, interval]);
 
-  // Pause auto-play on hover
+  // Pause auto-play on hover/focus/touch
   const handleMouseEnter = () => setIsAutoPlaying(false);
   const handleMouseLeave = () => setIsAutoPlaying(true);
+  const handleTouchStart = () => setIsAutoPlaying(false);
+  const handleTouchEnd = () => setIsAutoPlaying(true);
+  const handleFocus = () => setIsAutoPlaying(false);
+  const handleBlur = () => setIsAutoPlaying(true);
 
   const goToPrevious = () => {
     setCurrentIndex(currentIndex === 0 ? activeOffers.length - 1 : currentIndex - 1);
@@ -80,6 +97,10 @@ const OfferBannerCarousel: React.FC<OfferBannerCarouselProps> = ({ offers }) => 
         className="overflow-hidden border-0 shadow-2xl bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       >
         <CardContent className="p-0">
           <div className="flex flex-col lg:flex-row h-auto lg:h-64 xl:h-80">

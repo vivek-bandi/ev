@@ -34,17 +34,29 @@ mongoose.connect(MONGODB_URI).then(() => {
 
 // Security middleware
 app.use(helmet());
-app.use(cors({
-  origin: [
-    process.env.CLIENT_URL || 'http://localhost:5173',
-    'http://localhost:8080',
-    'http://localhost:8081',
-    'http://localhost:3000',
-    'https://ev-d88b.onrender.com',
-    'https://vechileadmin.netlify.app'
-  ],
-  credentials: true
-}));
+// CORS configuration
+// In development allow any origin (so mobile/dev-hosted frontends can call the API).
+// In production restrict to the configured client URL and known hosts.
+const corsOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:5173',
+  'http://localhost:8080',
+  'http://localhost:8081',
+  'http://localhost:3000',
+  'https://ev-d88b.onrender.com',
+  'https://vechileadmin.netlify.app'
+];
+
+const corsOptions = process.env.NODE_ENV === 'development'
+  ? { origin: true, credentials: true }
+  : { origin: corsOrigins, credentials: true };
+
+app.use(cors(corsOptions));
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('⚙️  CORS: development mode - allowing requests from any origin');
+} else {
+  console.log('⚙️  CORS: production mode - allowed origins:', corsOrigins);
+}
 
 // Rate limiting - DISABLED for development
 // TODO: Re-enable for production

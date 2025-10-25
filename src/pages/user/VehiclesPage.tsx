@@ -357,8 +357,8 @@ const VehiclesPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold">All Vehicles</h1>
-          <p className="text-muted-foreground mt-1">Discover our complete collection of electric vehicles</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">All Vehicles</h1>
+          <p className="text-muted-foreground mt-1 text-sm sm:text-base">Discover our complete collection of electric vehicles</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -387,7 +387,7 @@ const VehiclesPage = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
@@ -497,7 +497,7 @@ const VehiclesPage = () => {
         </Card>
       ) : (
         <div className={viewMode === 'grid' 
-          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" 
           : "space-y-4"
         }>
           {sortedVehicles.map((vehicle) => (

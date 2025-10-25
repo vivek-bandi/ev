@@ -85,8 +85,8 @@ const OfferBanner = ({ offer, vehicle, onClose }: OfferBannerProps) => {
         </Button>
       )}
 
-      <CardContent className="p-8">
-        <div className="flex items-center justify-between">
+      <CardContent className="p-4 sm:p-6 md:p-8">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between gap-4 sm:gap-0">
           {/* Left Side - Content */}
           <div className="flex-1 pr-6">
             <div className="flex items-center gap-4 mb-4">

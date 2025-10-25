@@ -11,13 +11,19 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [adminSecret, setAdminSecret] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register(name, email, password, adminSecret);
+      if (isAdmin && !adminSecret) {
+        setError('Admin secret is required to create an admin account');
+        return;
+      }
+
+      await register(name, email, password, isAdmin ? adminSecret : '');
       setSuccess('Account created. Please login');
       setTimeout(() => navigate('/login'), 1200);
     } catch (err) {
@@ -43,10 +49,23 @@ const Register = () => {
           <label className="text-sm">Password</label>
           <Input value={password} onChange={(e) => setPassword(e.target.value)} type="password" />
         </div>
-        <div>
-          <label className="text-sm">Admin secret (only if creating admin)</label>
-          <Input value={adminSecret} onChange={(e) => setAdminSecret(e.target.value)} type="password" />
+        <div className="flex items-center gap-2">
+          <input
+            id="isAdmin"
+            type="checkbox"
+            checked={isAdmin}
+            onChange={(e) => setIsAdmin(e.target.checked)}
+            className="w-4 h-4"
+          />
+          <label htmlFor="isAdmin" className="text-sm select-none">Register as admin</label>
         </div>
+
+        {isAdmin && (
+          <div>
+            <label className="text-sm">Admin secret (only if creating admin)</label>
+            <Input value={adminSecret} onChange={(e) => setAdminSecret(e.target.value)} type="password" />
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <Button type="submit">Create account</Button>
           <Button variant="ghost" onClick={() => navigate('/login')}>Already have account</Button>
